@@ -1,0 +1,27 @@
+#!/usr/bin/python3.5
+'''
+wimip (What is my IP?)
+This little script provides the current public IP address via the terminal.
+Obviously, the output can be piped to various other commands if needed.
+
+By, codeDirtyToMe
+'''
+
+import bs4, requests
+
+#url searching for "my ip" on Google assigned to variable.
+retrievedWebPage = requests.get('https://www.google.com/search?q=my+ip&ie=utf-8&oe=utf-8')
+
+#Create soup object.
+soupWebPage = bs4.BeautifulSoup(retrievedWebPage.text, "html.parser")
+
+#Extracting division containing public IP from HTML source code.
+HTMLPublicIP = soupWebPage.select('div ._h4c._rGd.vk_h')
+
+#Extract the IP from the HTML source code.
+currentPublicIP = HTMLPublicIP[0].getText()
+
+#Return the public IP address to standard output.
+print('Public IP address : ' + str(currentPublicIP))
+
+exit(0)
